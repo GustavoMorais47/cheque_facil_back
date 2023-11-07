@@ -4,7 +4,7 @@
   "description": "Sistema pessoal para controle de emissão e recebimento de cheques",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && npm run build:copy && tar -zcvf cheque_facil_v1.0.0.tar.gz dist && rmdir /s /q dist",
+    "build": "tsc && npm run build:copy",
     "build:copy": "copy .env-copy dist\\.env && copy package.json dist\\package.json && copy package-lock.json dist\\package-lock.json",
     "dev": "ts-node-dev ./src/index.ts",
     "start": "node ./index.js"
