@@ -18,6 +18,12 @@ export async function deleteCheque(req: Request, res: Response) {
         mensagem: "ID deve ser um número",
       });
 
+    if (payload.conta.dataValues.id_acesso !== payload.id)
+      return res.status(403).json({
+        mensagem: "Apenas o dono da conta pode excluir um cheque",
+        permissoes: payload.permissao,
+      });
+
     const cheque = await Cheque.findOne({
       where: {
         id,

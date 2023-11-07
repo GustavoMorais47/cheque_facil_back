@@ -65,6 +65,10 @@ Cheque.init(
       ),
       allowNull: false,
     },
+    motivo_devolucao: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     criado_por: {
       type: DataTypes.INTEGER,
       allowNull: false,

@@ -24,6 +24,7 @@ export async function postCheque(req: Request, res: Response) {
       destinatario,
       descricao,
       status, //obrigatório
+      motivo_devolucao,
     } = req.body;
 
     if (
@@ -127,6 +128,24 @@ export async function postCheque(req: Request, res: Response) {
     if (descricao && typeof descricao !== "string")
       return res.status(400).json({
         mensagem: "Descrição deve ser string",
+      });
+
+    if (status === EStatusCheque.DEVOLVIDO && !motivo_devolucao)
+      return res.status(400).json({
+        mensagem: "Motivo de devolução é obrigatório",
+      });
+
+    if (motivo_devolucao && typeof motivo_devolucao !== "string")
+      return res.status(400).json({
+        mensagem: "Motivo de devolução deve ser string",
+      });
+
+    if (
+      motivo_devolucao && motivo_devolucao.length > 250 || motivo_devolucao && motivo_devolucao.length < 1
+    )
+      return res.status(400).json({
+        mensagem:
+          "Motivo de devolução deve ter no máximo 250 caracteres e no mínimo 1 caracter",
       });
 
     const cheque = await Cheque.findOne({
@@ -273,6 +292,7 @@ export async function postCheque(req: Request, res: Response) {
       destinatario,
       descricao,
       status,
+      motivo_devolucao: motivo_devolucao ? motivo_devolucao : null,
       criado_por: payload.id,
     });
 

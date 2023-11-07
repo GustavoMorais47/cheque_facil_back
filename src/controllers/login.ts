@@ -62,7 +62,8 @@ export default async function login(req: Request, res: Response) {
 
     const token = jwt.sign(payload, conta.dataValues.chave_jwt);
 
-    notificationToken && (await acesso.update({ token: notificationToken }));
+    if(notificationToken)
+      await acesso.update({ token: notificationToken });
 
     return res.status(200).json({
       mensagem: "Login realizado com sucesso",
@@ -70,6 +71,6 @@ export default async function login(req: Request, res: Response) {
     });
   } catch (err) {
     logger.error(err);
-    return res.status(500).json({ erro: "Erro interno do servidor" });
+    return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 }

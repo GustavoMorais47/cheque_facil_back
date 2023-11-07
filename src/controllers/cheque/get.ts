@@ -6,6 +6,7 @@ import { EPermissaoAcesso } from "../../types/enum";
 import Responsavel from "../../model/responsavel";
 import Cheque from "../../model/cheque";
 import logger from "../../utils/logs";
+import Acesso from "../../model/acesso";
 
 export async function getCheques(req: Request, res: Response) {
   try {
@@ -48,17 +49,34 @@ export async function getCheques(req: Request, res: Response) {
         mensagem: "ID deve ser um número",
       });
 
-    const responsavel = await Responsavel.findOne({
+    const acesso = await Acesso.findOne({
       where: {
         id,
         id_conta: payload.conta.dataValues.id,
       },
     });
 
-    if (!responsavel)
+    if (!acesso)
       return res.status(404).json({
-        mensagem: "Responsável não encontrado",
+        mensagem: "Acesso não encontrado",
       });
+
+    let responsavel: Responsavel | null = null;
+    if (acesso.dataValues.id_responsavel !== null) {
+      const responsavelDB = await Responsavel.findOne({
+        where: {
+          id: acesso.dataValues.id_responsavel,
+          id_conta: payload.conta.dataValues.id,
+        },
+      });
+
+      if (!responsavelDB)
+        return res.status(404).json({
+          mensagem: "Responsável não encontrado",
+        });
+
+      responsavel = responsavelDB;
+    }
 
     let cheques: Cheque[] = [];
 
@@ -88,7 +106,7 @@ export async function getCheques(req: Request, res: Response) {
                 },
               },
             });
-    } else {
+    } else if (responsavel) {
       cheques =
         filtro === "emissao"
           ? await Cheque.findAll({

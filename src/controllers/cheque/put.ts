@@ -24,6 +24,7 @@ export async function putCheque(req: Request, res: Response) {
       destinatario,
       descricao,
       status, //obrigatório
+      motivo_devolucao,
     } = req.body;
 
     if (!id) return res.status(400).json({ mensagem: "ID é obrigatório" });
@@ -126,6 +127,25 @@ export async function putCheque(req: Request, res: Response) {
     if (descricao && typeof descricao !== "string")
       return res.status(400).json({
         mensagem: "Descrição deve ser string",
+      });
+
+    if (status === EStatusCheque.DEVOLVIDO && !motivo_devolucao)
+      return res.status(400).json({
+        mensagem: "Motivo de devolução é obrigatório",
+      });
+
+    if (motivo_devolucao && typeof motivo_devolucao !== "string")
+      return res.status(400).json({
+        mensagem: "Motivo de devolução deve ser string",
+      });
+
+    if (
+      (motivo_devolucao && motivo_devolucao.length > 250) ||
+      motivo_devolucao.trim().length < 1
+    )
+      return res.status(400).json({
+        mensagem:
+          "Motivo de devolução deve ter no máximo 250 caracteres e no mínimo 1 caracter",
       });
 
     const config = await Config.findOne({
@@ -269,9 +289,10 @@ export async function putCheque(req: Request, res: Response) {
       destinatario,
       descricao,
       status,
+      motivo_devolucao: motivo_devolucao ? motivo_devolucao : null,
     });
 
-    return res.status(201).json({ mensagem: "Cheque criado com sucesso" });
+    return res.status(201).json({ mensagem: "Cheque atualizado com sucesso" });
   } catch (error) {
     logger.error(error);
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
