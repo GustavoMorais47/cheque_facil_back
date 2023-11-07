@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",        /* Versão do JavaScript para a qual deseja compilar. */
+    "module": "CommonJS",      /* Sistema de módulos. */
+    "outDir": "./dist",        /* Diretório de saída para os arquivos transpilados. */
+    "rootDir": "./src",        /* Diretório de origem onde o código TypeScript está localizado. */
+    "strict": true,            /* Habilita verificações de tipo estritas. */
+    "esModuleInterop": true,   /* Melhora a interoperabilidade entre CommonJS e ES6. */
+    "skipLibCheck": true,      /* Ignora a verificação de tipos nos arquivos de declaração (.d.ts). */
+    "forceConsistentCasingInFileNames": true, /* Garante que os nomes dos arquivos correspondam de forma consistente. */
+    "resolveJsonModule": true, /* Permite a importação de arquivos JSON diretamente. */
+  },
+  "include": ["**/*.ts"], /* Padrão para inclusão de arquivos TypeScript. */
+  "exclude": ["node_modules"] /* Padrão para exclusão de pastas. */
+}

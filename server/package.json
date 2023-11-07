@@ -1,0 +1,40 @@
+{
+  "name": "cheque-facil-back",
+  "version": "1.0.0",
+  "description": "Sistema pessoal para controle de emissão e recebimento de cheques",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && npm run build:copy && tar -zcvf cheque_facil_v1.0.0.tar.gz dist && rmdir /s /q dist",
+    "build:copy": "copy .env-copy dist\\.env && copy package.json dist\\package.json && copy package-lock.json dist\\package-lock.json",
+    "dev": "ts-node-dev ./src/index.ts",
+    "start": "node ./index.js"
+  },
+  "author": "Gustavo Morais Sousa",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/express": "^4.17.18",
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/node": "^20.8.2",
+    "@types/node-cron": "^3.0.10",
+    "@types/sequelize": "^4.28.17",
+    "@types/validator": "^13.11.3",
+    "terser-webpack-plugin": "^5.3.9",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cpf-cnpj-validator": "^1.0.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "moment": "^2.29.4",
+    "mysql2": "^3.6.1",
+    "node-cron": "^3.0.2",
+    "sequelize": "^6.33.0",
+    "ts-node": "^10.9.1",
+    "validator": "^13.11.0",
+    "winston": "^3.11.0"
+  }
+}
